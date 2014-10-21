@@ -55,7 +55,7 @@ namespace Assets.Scripts
 
             _isDestroyed = true;
             EventAggregator.SendMessage(new CollectedPoopMessage());
-            AudioSource.PlayClipAtPoint(CollectPoop, transform.position);
+            AudioSource.PlayClipAtPoint(CollectPoop, Vector3.zero);
         }
     }
 }
