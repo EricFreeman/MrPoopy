@@ -5,13 +5,17 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     public class Player : MonoBehaviour,
-        IListener<YouLoseMessage>
+        IListener<YouLoseMessage>,
+        IListener<CollectedPoopMessage>
     {
+        public Sprite ClosedMouth;
         public Sprite OpenMouth;
         public Sprite Smiling;
 
         public float Speed = 5;
+        private bool _isStarted;
         private bool _isDead;
+        private float _smileTime;
 
         void Start()
         {
@@ -27,6 +31,10 @@ namespace Assets.Scripts
         {
             if (_isDead) return;
 
+            _smileTime--;
+            if (_smileTime > 0) GetComponent<SpriteRenderer>().sprite = Smiling;
+            else if(_isStarted) GetComponent<SpriteRenderer>().sprite = OpenMouth;
+
             transform.Translate(Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime, 0, 0);
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -7.8f, 3.5f), -3.5f, 0);
 
@@ -34,12 +42,19 @@ namespace Assets.Scripts
             {
                 EventAggregator.SendMessage(new StartPoopingMessage());
                 GetComponent<SpriteRenderer>().sprite = OpenMouth;
+                _isStarted = true;
             }
         }
 
         public void Handle(YouLoseMessage message)
         {
             _isDead = true;
+            GetComponent<SpriteRenderer>().sprite = ClosedMouth;
+        }
+
+        public void Handle(CollectedPoopMessage message)
+        {
+            _smileTime = 50;
         }
     }
 }

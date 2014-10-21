@@ -46,6 +46,7 @@ namespace Assets.Scripts
         {
             if (col.tag != "Player" || !_isFalling) return;
             _isDestroyed = true;
+            EventAggregator.SendMessage(new CollectedPoopMessage());
         }
     }
 }
