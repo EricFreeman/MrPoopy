@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.EventHandler;
 using Assets.Scripts.EventHandler.Messages;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -9,6 +10,9 @@ namespace Assets.Scripts
     {
         public List<Sprite> Falling;
         public List<Sprite> Splatter;
+
+        public AudioClip HitFloor;
+        public AudioClip CollectPoop;
 
         private int _frame;
         private float _speed;
@@ -39,6 +43,7 @@ namespace Assets.Scripts
                 _isFalling = false;
                 GetComponent<SpriteRenderer>().sprite = Splatter[_frame];
                 EventAggregator.SendMessage(new LoseHealthMessage());
+                this.PlaySound(HitFloor);
             }
         }
 
@@ -50,6 +55,7 @@ namespace Assets.Scripts
 
             _isDestroyed = true;
             EventAggregator.SendMessage(new CollectedPoopMessage());
+            AudioSource.PlayClipAtPoint(CollectPoop, transform.position);
         }
     }
 }

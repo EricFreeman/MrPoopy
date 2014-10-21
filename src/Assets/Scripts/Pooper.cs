@@ -1,5 +1,8 @@
-﻿using Assets.Scripts.EventHandler;
+﻿using System.Collections.Generic;
+using Assets.Scripts.EventHandler;
 using Assets.Scripts.EventHandler.Messages;
+using Assets.Scripts.UI;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -11,6 +14,7 @@ namespace Assets.Scripts
         public Sprite StandingImage;
         public Sprite PoopingImage;
         public GameObject Poop;
+        public List<AudioClip> FartSounds;
 
         public float MinPoopDelay;
         public float MaxPoopDelay;
@@ -44,6 +48,7 @@ namespace Assets.Scripts
             _poopDelay = Random.Range(MinPoopDelay, MaxPoopDelay);
             var p = (GameObject)Instantiate(Poop);
             p.transform.position = transform.position;
+            this.PlaySound(FartSounds);
         }
 
         public void Handle(StartPoopingMessage message)

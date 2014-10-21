@@ -1,5 +1,7 @@
 ﻿using Assets.Scripts.EventHandler;
 using Assets.Scripts.EventHandler.Messages;
+using Assets.Scripts.UI;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -12,10 +14,13 @@ namespace Assets.Scripts
         public Sprite OpenMouth;
         public Sprite Smiling;
 
-        public float Speed = 5;
-        private bool _isStarted;
+        public AudioClip StartLevel;
+        public AudioClip EndLevel;
+
         [HideInInspector]
         public bool IsDead;
+        public float Speed = 5;
+        private bool _isStarted;
         private float _smileTime;
 
         void Start()
@@ -39,9 +44,10 @@ namespace Assets.Scripts
             transform.Translate(Input.GetAxisRaw("Horizontal") * Speed * Time.deltaTime, 0, 0);
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -7.8f, 3.5f), -3.5f, 0);
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && !_isStarted)
             {
                 EventAggregator.SendMessage(new StartPoopingMessage());
+                this.PlaySound(StartLevel);
                 GetComponent<SpriteRenderer>().sprite = OpenMouth;
                 _isStarted = true;
             }
@@ -49,8 +55,11 @@ namespace Assets.Scripts
 
         public void Handle(YouLoseMessage message)
         {
+            if (IsDead) return;
+
             IsDead = true;
             GetComponent<SpriteRenderer>().sprite = ClosedMouth;
+            this.PlaySound(EndLevel);
         }
 
         public void Handle(CollectedPoopMessage message)
