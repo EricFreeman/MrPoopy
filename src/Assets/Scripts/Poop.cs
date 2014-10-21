@@ -45,6 +45,9 @@ namespace Assets.Scripts
         void OnTriggerEnter2D(Collider2D col)
         {
             if (col.tag != "Player" || !_isFalling) return;
+
+            if (col.GetComponent<Player>().IsDead) return;
+
             _isDestroyed = true;
             EventAggregator.SendMessage(new CollectedPoopMessage());
         }

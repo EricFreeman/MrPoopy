@@ -14,7 +14,7 @@ namespace Assets.Scripts
 
         public float Speed = 5;
         private bool _isStarted;
-        private bool _isDead;
+        public bool IsDead;
         private float _smileTime;
 
         void Start()
@@ -29,7 +29,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (_isDead) return;
+            if (IsDead) return;
 
             _smileTime--;
             if (_smileTime > 0) GetComponent<SpriteRenderer>().sprite = Smiling;
@@ -48,7 +48,7 @@ namespace Assets.Scripts
 
         public void Handle(YouLoseMessage message)
         {
-            _isDead = true;
+            IsDead = true;
             GetComponent<SpriteRenderer>().sprite = ClosedMouth;
         }
 
