@@ -1,15 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using Assets.Scripts.EventHandler;
+using Assets.Scripts.EventHandler.Messages;
+using UnityEngine;
 
-public class MainMenuController : MonoBehaviour {
+namespace Assets.Scripts.UI
+{
+    public class MainMenuController : MonoBehaviour,
+        IListener<OpenInstructionsMessage>,
+        IListener<CloseInstructionsMessage>
+    {
+        public GameObject MainMenu;
+        public GameObject Instructions;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        void Start()
+        {
+            this.Register<OpenInstructionsMessage>();
+            this.Register<CloseInstructionsMessage>();
+        }
+
+        void OnDestroy()
+        {
+            this.UnRegister<OpenInstructionsMessage>();
+            this.UnRegister<CloseInstructionsMessage>();
+        }
+
+        public void Handle(OpenInstructionsMessage message)
+        {
+            MainMenu.SetActive(false);
+            Instructions.SetActive(true);
+        }
+
+        public void Handle(CloseInstructionsMessage message)
+        {
+            MainMenu.SetActive(true);
+            Instructions.SetActive(false);
+        }
+    }
 }
