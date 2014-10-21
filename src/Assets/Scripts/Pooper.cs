@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.EventHandler;
+using Assets.Scripts.EventHandler.Messages;
 using UnityEngine;
 
 namespace Assets.Scripts
