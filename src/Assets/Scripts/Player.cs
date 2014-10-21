@@ -43,7 +43,7 @@ namespace Assets.Scripts
 
             ApplyMovementSpeed();
 
-            if (Input.GetKey(KeyCode.Space) && !_isStarted)
+            if ((Input.GetKey(KeyCode.Space) || Input.touchCount > 0) && !_isStarted)
             {
                 EventAggregator.SendMessage(new StartPoopingMessage());
                 this.PlaySound(StartLevel);
@@ -55,24 +55,10 @@ namespace Assets.Scripts
         private void ApplyMovementSpeed()
         {
             var speed = Input.GetAxisRaw("Horizontal");
-            var tiltSpeed = GetTiltSpeed();
-            var grossSpeed = speed + tiltSpeed.x;
+            var grossSpeed = speed + Input.acceleration.x;
 
             transform.Translate(grossSpeed * Speed * Time.deltaTime, 0, 0);
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, -7.8f, 3.5f), -3.5f, 0);
-        }
-
-        private Vector3 GetTiltSpeed()
-        {
-            var dir = Vector3.zero;
-            dir.x = -Input.acceleration.y;
-            dir.z = Input.acceleration.x;
-            if (dir.sqrMagnitude > 1)
-                dir.Normalize();
-
-            dir *= Time.deltaTime;
-
-            return dir;
         }
 
         public void Handle(YouLoseMessage message)
