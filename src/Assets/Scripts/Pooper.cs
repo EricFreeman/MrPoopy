@@ -5,8 +5,10 @@ using UnityEngine;
 namespace Assets.Scripts
 {
     public class Pooper : MonoBehaviour,
-        IListener<StartPoopingMessage>
+        IListener<StartPoopingMessage>,
+        IListener<YouLoseMessage>
     {
+        public Sprite StandingImage;
         public Sprite PoopingImage;
         public GameObject Poop;
 
@@ -19,11 +21,13 @@ namespace Assets.Scripts
         void Start()
         {
             this.Register<StartPoopingMessage>();
+            this.Register<YouLoseMessage>();
         }
 
         void OnDestroy()
         {
             this.UnRegister<StartPoopingMessage>();
+            this.UnRegister<YouLoseMessage>();
         }
 
         void Update()
@@ -49,6 +53,12 @@ namespace Assets.Scripts
             _isPooping = true;
             GetComponent<SpriteRenderer>().sprite = PoopingImage;
             _poopDelay = Random.Range(MinPoopDelay, MaxPoopDelay);
+        }
+
+        public void Handle(YouLoseMessage message)
+        {
+            GetComponent<SpriteRenderer>().sprite = StandingImage;
+            _isPooping = false;
         }
     }
 }
