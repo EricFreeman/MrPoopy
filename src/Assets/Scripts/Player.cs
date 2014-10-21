@@ -14,6 +14,7 @@ namespace Assets.Scripts
 
         public float Speed = 5;
         private bool _isStarted;
+        [HideInInspector]
         public bool IsDead;
         private float _smileTime;
 
