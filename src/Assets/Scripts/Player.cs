@@ -26,11 +26,13 @@ namespace Assets.Scripts
         void Start()
         {
             this.Register<YouLoseMessage>();
+            this.Register<CollectedPoopMessage>();
         }
 
         void OnDestroy()
         {
             this.UnRegister<YouLoseMessage>();
+            this.UnRegister<CollectedPoopMessage>();
         }
 
         void Update()
