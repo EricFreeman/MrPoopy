@@ -23,6 +23,11 @@ namespace Assets.Scripts.UI
             this.UnRegister<CloseInstructionsMessage>();
         }
 
+        void Update()
+        {
+            if (Input.GetKey(KeyCode.Escape)) Application.Quit();
+        }
+
         public void Handle(OpenInstructionsMessage message)
         {
             MainMenu.SetActive(false);

@@ -31,7 +31,7 @@ namespace Assets.Scripts
 
         public void GoToMainMenu()
         {
-            if(FadeAmount == 255)
+            if(FadeAmount >= 200)
                 Application.LoadLevel("MainMenu");
         }
 

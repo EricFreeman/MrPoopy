@@ -39,6 +39,8 @@ namespace Assets.Scripts
 
         void Update()
         {
+            if(Input.GetKey(KeyCode.Escape)) Application.LoadLevel("MainMenu");
+
             if (IsDead) return;
 
             _smileTime--;
