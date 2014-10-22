@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.EventHandler;
 using Assets.Scripts.EventHandler.Messages;
-using Assets.Scripts.UI;
 using Assets.Scripts.Util;
 using UnityEngine;
 

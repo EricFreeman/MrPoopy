@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.EventHandler;
 using Assets.Scripts.EventHandler.Messages;
-using Assets.Scripts.UI;
 using Assets.Scripts.Util;
 using UnityEngine;
 
@@ -16,17 +15,20 @@ namespace Assets.Scripts
 
         public AudioClip StartLevel;
         public AudioClip EndLevel;
+        public AudioClip Yummy;
 
         [HideInInspector]
         public bool IsDead;
         public float Speed = 5;
         private bool _isStarted;
         private float _smileTime;
+        private int _nextYummy;
 
         void Start()
         {
             this.Register<YouLoseMessage>();
             this.Register<CollectedPoopMessage>();
+            _nextYummy = Random.Range(0, 5);
         }
 
         void OnDestroy()
@@ -75,6 +77,8 @@ namespace Assets.Scripts
         public void Handle(CollectedPoopMessage message)
         {
             _smileTime = 50;
+            if((_nextYummy--) % 5 == 0)
+                this.PlaySound(Yummy);
         }
     }
 }
