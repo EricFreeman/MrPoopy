@@ -22,7 +22,7 @@ namespace Assets.Scripts
 
         void Update()
         {
-            if (!audio.isPlaying) PlayNewSong();
+            if (!GetComponent<AudioSource>().isPlaying) PlayNewSong();
         }
 
         private bool AlreadyExists()
@@ -48,8 +48,8 @@ namespace Assets.Scripts
             while (newSong == _lastSong)
                 newSong = rand.Next(0, Songs.Count);
 
-            audio.clip = Songs[newSong];
-            audio.Play();
+            GetComponent<AudioSource>().clip = Songs[newSong];
+            GetComponent<AudioSource>().Play();
             _lastSong = newSong;
         }
     }
